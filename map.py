@@ -1,6 +1,7 @@
 import pandas as pd
 import folium
 
+
 # the filepath to the .json file that contains all the dataset urls
 url_fp: str = "data/metadata/urls.json"
 
@@ -56,8 +57,12 @@ c_df: pd.DataFrame = pd.read_csv(c_url, sep=';', usecols=c_col, on_bad_lines='sk
 
 #######################################
 
-paris_loc = [48.856578, 2.351828]
+paris_loc = [48.856578, 2.351828]   
 
 m = folium.Map(location=paris_loc)
+
+for index, location_info in c_df.iterrows():
+    folium.Marker([float(location_info["lat"]), float(location_info["long"])]).add_to(map)
+
 
 m.save("index.html")
