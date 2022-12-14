@@ -50,10 +50,12 @@ if c_url == None:
     Only use those columns because
     we only want to extract the accident id from the vehicule category
 """
-c_col: list[str] = ['lat', 'long']
+c_col: list[str] = ['Num_Acc', 'lat', 'long']
 
 # convert .csv file to pandas dataframe
 c_df: pd.DataFrame = pd.read_csv(c_url, sep=';', usecols=c_col, on_bad_lines='skip')
+
+bicycle_acc_loc_df: pd.DataFrame = pd.merge(v_df, c_df, on=['Num_Acc'])
 
 #######################################
 
@@ -65,12 +67,8 @@ paris_loc = [48.856578, 2.351828]
 
 m = folium.Map(location=paris_loc)
 
-number_acc_drawn = 300
-
-c_df = c_df[:number_acc_drawn]
-
-for index, acc_info in c_df.iterrows():
-    acc_loc: list[float] = [to_float(acc_info["lat"]), to_float(acc_info["long"])]
+for index, acc_info in bicycle_acc_loc_df.iterrows():
+    acc_loc: list[float] = [to_float(acc_info['lat']), to_float(acc_info['long'])]
 
     folium.Marker(acc_loc).add_to(m)
 
