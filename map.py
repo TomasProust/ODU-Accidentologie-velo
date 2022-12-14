@@ -57,12 +57,22 @@ c_df: pd.DataFrame = pd.read_csv(c_url, sep=';', usecols=c_col, on_bad_lines='sk
 
 #######################################
 
+def to_float(str: str) -> float:
+    us_notation: str = str.replace(",", ".")
+    return float(us_notation)
+
 paris_loc = [48.856578, 2.351828]   
 
 m = folium.Map(location=paris_loc)
 
-for index, location_info in c_df.iterrows():
-    folium.Marker([float(location_info["lat"]), float(location_info["long"])]).add_to(map)
+number_acc_drawn = 300
+
+c_df = c_df[:number_acc_drawn]
+
+for index, acc_info in c_df.iterrows():
+    acc_loc: list[float] = [to_float(acc_info["lat"]), to_float(acc_info["long"])]
+
+    folium.Marker(acc_loc).add_to(m)
 
 
 m.save("index.html")
