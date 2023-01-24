@@ -10,7 +10,7 @@ export default function Map() {
       setPageIsMounted(true);
   
       mapboxgl.accessToken =
-        "pk.eyJ1Ijoib2R1LXZlbG8iLCJhIjoiY2xjajl4MGh2MGc5ajN1cWg5anRnbnA3bCJ9.A1vMA06W6lyvtb3KDZW-Kg";
+        "pk.eyJ1IjoiZ3VhY2Ftb2xsYXJkIiwiYSI6ImNsZDhxY3o1MjAxaTYzcGxpeGthbTBiOXAifQ.YW3ytIQi4710aCidT9lNCQ";
   
       let map = new mapboxgl.Map({
         container: "my-map",
@@ -23,14 +23,14 @@ export default function Map() {
         // Add the vector tileset as a source.
         map.addSource('accidents', {
           type: 'vector',
-          url: 'mapbox://odu-velo.6t8qftax'
+          url: 'mapbox://guacamollard.2fvx6bs1'
         });
         map.addLayer(
           {
             'id': 'bicycle-accidents',
             'type': 'circle',
             'source': 'accidents',
-            'source-layer': 'bicycle_accidents-3jko3r',
+            'source-layer': 'bicycle_vae_electricScooter_a-cd20tt',
             'paint': {
               'circle-radius': {
                 'base': 1.75,
@@ -39,7 +39,19 @@ export default function Map() {
                   [22, 180]
                 ]
               },
-              'circle-color': '#d40404'
+              'circle-color': [
+                'match',
+                ['get', 'grav'],
+                1,//indèmnes
+                '#ffd700',
+                2,//Tués
+                '#000000',
+                3,//bléssé hospitalisé
+                '#ff0000',
+                4,//bléssé léger
+                '#ff8c00',
+                /* other */ '#ccc'
+                ]
             }
           },
         );
