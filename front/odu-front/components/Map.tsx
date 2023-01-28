@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import styles from '../styles/map.module.css';
-import { addGravityVision, addGravityFilters } from './filters/gravity';
+import { addSeverityVision, addSeverityFilters } from './filters/severity';
+import { addVehiculeVision } from './filters/vehicule';
 
 const mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ3VhY2Ftb2xsYXJkIiwiYSI6ImNsZDhxY3o1MjAxaTYzcGxpeGthbTBiOXAifQ.YW3ytIQi4710aCidT9lNCQ';
@@ -50,8 +51,9 @@ export default function Map() {
           'circle-color': '#FF0000',
         }
       });
-      addGravityVision(map, acc_layerID);
-      addGravityFilters(map, acc_layerID);
+      addSeverityVision(map, acc_layerID);
+      addVehiculeVision(map, acc_layerID);
+      addSeverityFilters(map, acc_layerID);
       setMap(map);
     });
 

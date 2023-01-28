@@ -1,20 +1,20 @@
 import { getCircleColors, allFormatFilters, pushFilter, removeFilter } from './commons';
 
-type Gravity = {
+type Severity = {
     name: string;
     description: string;
     value: number;
     color: string;
 };
 
-type GravityDesc = {
+type SeverityDesc = {
     name: string;
     category: string;
     description: string;
-    filters: Gravity[];
+    filters: Severity[];
 };
 
-const desc: GravityDesc = {
+const desc: SeverityDesc = {
     name: 'Gravité',
     category: 'grav',
     description: 'Gravité de blessure de l\'usager, les usagers accidentés sont classés en trois catégories de victimes plus les indemnes',
@@ -46,7 +46,7 @@ const desc: GravityDesc = {
     ],
 };
 
-export function addGravityVision(map: any, layerID: string) {
+export function addSeverityVision(map: any, layerID: string) {
     const visionGroup = document.getElementById('vision-group');
 
     if (!visionGroup) return;
@@ -77,7 +77,7 @@ export function addGravityVision(map: any, layerID: string) {
     return map;
 }
 
-export function addGravityFilters(map: any, layerID: string) {
+export function addSeverityFilters(map: any, layerID: string) {
     const filterGroup = document.getElementById('filter-group');
 
     if (filterGroup) {
