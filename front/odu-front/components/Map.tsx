@@ -32,7 +32,25 @@ export default function Map() {
         type: 'vector',
         url: accidentsVectorTileSets
       });
-      addGravityVision(map, acc_sourceID, acc_sourceLayerID, acc_layerID);
+      // From source add the layer of accidents as circle points
+      map.addLayer({
+        'id': acc_layerID,
+        'type': 'circle',
+        'source': acc_sourceID,
+        'source-layer': acc_sourceLayerID,
+        'paint': {
+            // Make circles larger as the user zooms from z12 to z22.
+            'circle-radius': {
+                'base': 1.75,
+                'stops': [
+                    [12, 2],
+                    [22, 180]
+                ]
+            },
+          'circle-color': '#FF0000',
+        }
+      });
+      addGravityVision(map, acc_layerID);
       addGravityFilters(map, acc_layerID);
       setMap(map);
     });
@@ -46,6 +64,7 @@ export default function Map() {
     <div>
       <main>
         <div ref={mapContainer} className={styles.mapContainer} />
+        <nav id="vision-group" className={styles.visionGroup}></nav>
         <nav id="filter-group" className={styles.filterGroup}></nav>
       </main>
     </div>

@@ -46,25 +46,34 @@ const desc: GravityDesc = {
     ],
 };
 
-export function addGravityVision(map: any, sourceID: string, sourceLayerID: string, layerID: string) {
-    // From source add the layer of accidents as circle points
-    map.addLayer({
-        'id': layerID,
-        'type': 'circle',
-        'source': sourceID,
-        'source-layer': sourceLayerID,
-        'paint': {
-            // Make circles larger as the user zooms from z12 to z22.
-            'circle-radius': {
-                'base': 1.75,
-                'stops': [
-                    [12, 2],
-                    [22, 180]
-                ]
-            },
-            'circle-color': getCircleColors(desc),
+export function addGravityVision(map: any, layerID: string) {
+    const visionGroup = document.getElementById('vision-group');
+
+    if (!visionGroup) return;
+    
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.id = desc.name;
+    input.checked = false;
+    visionGroup.appendChild(input);
+
+    const label = document.createElement('label');
+    label.setAttribute('for', desc.name);
+    label.textContent = desc.name;
+    visionGroup.appendChild(label);
+    const gravityColors = getCircleColors(desc);
+    
+    // When the checkbox changes, update the color mode of the layer.
+    input.addEventListener('change', (e) => {
+        const boxChecked = e.target.checked;
+        
+        if (boxChecked) {
+            map.setPaintProperty(layerID, 'circle-color', gravityColors);
+        } else {
+            map.setPaintProperty(layerID, 'circle-color', '#FF0000');
         }
     });
+
     return map;
 }
 
@@ -96,7 +105,6 @@ export function addGravityFilters(map: any, layerID: string) {
                 } else {
                     pushFilter(filters, filter);
                 }
-                console.log(boxChecked ? "Checked" : "Unchecked");
                 map.setFilter(layerID, filters);
             });
         });
