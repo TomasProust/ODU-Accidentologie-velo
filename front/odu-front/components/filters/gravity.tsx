@@ -1,4 +1,4 @@
-import { getCircleColors } from './commons';
+import { getCircleColors, allFormatFilters, pushFilter, removeFilter } from './commons';
 
 type Gravity = {
     name: string;
@@ -86,7 +86,18 @@ export function addGravityFilters(map: any, layerID: string) {
 
             // When the checkbox changes, update the visibility of the layer.
             input.addEventListener('change', (e) => {
-                console.log(`Button clicked for ${name} of value ${value}`);
+                const boxChecked = e.target.checked;
+                const oldFilters = map.getFilter(layerID);
+                let filters = allFormatFilters(oldFilters);
+                const filter = ['!=', ['get', 'grav'], value];
+
+                if (boxChecked) {
+                    removeFilter(filters, filter);
+                } else {
+                    pushFilter(filters, filter);
+                }
+                console.log(boxChecked ? "Checked" : "Unchecked");
+                map.setFilter(layerID, filters);
             });
         });
     }
